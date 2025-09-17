@@ -20,4 +20,19 @@ public class ThSensorController {
     public List<ThSensorDTO> getThSensor(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endData){
         return thSensorService.getThSensor(startDate, endData);
     }
+
+    @GetMapping("/temp")
+    public List<ThSensorDTO> getTempData(@RequestParam("date") String date, @RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime){
+        return thSensorService.getTempData(date, startTime, endTime);
+    }
+    @GetMapping("/hum")
+    public List<ThSensorDTO> getHumData(@RequestParam("date") String date, @RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime){
+        return thSensorService.getHumData(date, startTime, endTime);
+    }
+
+    @GetMapping("/lux")
+    public List<ThSensorDTO> getLuxData(@RequestParam("date") String date, @RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime){
+        return thSensorService.getLuxData(date, startTime, endTime);
+    }
+
 }
