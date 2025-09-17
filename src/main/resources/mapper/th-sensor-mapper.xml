@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<!-- namespace에는 xml파일과 연결할 Mapper interface 파일명을 패키지를 포함하여 적어주세요 -->
+<mapper namespace="com.backend.chickenFarm.sensor_th.mapper.ThSensorMaper">
+    <resultMap id="thSensor" type="com.backend.chickenFarm.sensor_th.dto.ThSensorDTO">
+        <id     column="TH_SENSOR_ID"       property="thSensorId"/>
+        <result column="TEMP_DATA"          property="tempData" />
+        <result column="HUM_DATA"           property="humData" />
+        <result column="LUX_DATA"           property="luxData" />
+        <result column="REC_TIME"           property="recTime" />
+    </resultMap>
+
+    <select id="getThSensor" resultMap="thSensor">
+        SELECT
+        TH_SENSOR_ID,
+        TEMP_DATA,
+        HUM_DATA,
+        LUX_DATA,
+        REC_TIME
+        FROM th_sensor
+        WHERE TO_CHAR(REC_TIME,  'YYYY-MM-DD')
+        BETWEEN #{startDate}
+        AND #{endDate}
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
