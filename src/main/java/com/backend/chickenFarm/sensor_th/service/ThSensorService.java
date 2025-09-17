@@ -16,4 +16,16 @@ public class ThSensorService {
         return thSensorMaper.getThSensor(startData, endData);
     }
 
+    public List<ThSensorDTO> getTempData(String date, String startTime, String endTime){
+        return thSensorMaper.getTempData(date, startTime, endTime);
+    }
+
+    public List<ThSensorDTO> getHumData(String date, String startTime, String endTime){
+        return thSensorMaper.getHumData(date, startTime, endTime);
+    }
+
+    public List<ThSensorDTO> getLuxData(String date, String startTime, String endTime){
+        return thSensorMaper.getLuxData(date, startTime, endTime);
+    }
+
 }

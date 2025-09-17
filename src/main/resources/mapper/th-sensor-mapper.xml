@@ -25,6 +25,33 @@
         AND #{endDate}
     </select>
 
+    <select id="getTempData" resultMap="thSensor">
+        SELECT
+        TEMP_DATA,
+        REC_TIME
+        FROM th_sensor
+        WHERE REC_TIME BETWEEN STR_TO_DATE(CONCAT(#{date}, ' ', #{startTime}), '%Y-%m-%d %H:%i:%s')
+        AND STR_TO_DATE(CONCAT(#{date}, ' ', #{endTime}), '%Y-%m-%d %H:%i:%s')
+    </select>
+
+    <select id="getHumData" resultMap="thSensor">
+        SELECT
+        HUM_DATA,
+        REC_TIME
+        FROM th_sensor
+        WHERE REC_TIME BETWEEN STR_TO_DATE(CONCAT(#{date}, ' ', #{startTime}), '%Y-%m-%d %H:%i:%s')
+        AND STR_TO_DATE(CONCAT(#{date}, ' ', #{endTime}), '%Y-%m-%d %H:%i:%s')
+    </select>
+
+    <select id="getLuxData" resultMap="thSensor">
+        SELECT
+        LUX_DATA,
+        REC_TIME
+        FROM th_sensor
+        WHERE REC_TIME BETWEEN STR_TO_DATE(CONCAT(#{date}, ' ', #{startTime}), '%Y-%m-%d %H:%i:%s')
+        AND STR_TO_DATE(CONCAT(#{date}, ' ', #{endTime}), '%Y-%m-%d %H:%i:%s')
+    </select>
+
 </mapper>
 
 
