@@ -13,7 +13,9 @@
         <result column="FARM_NUM"       property="farmNum"/>
         <result column="HEALTH_STATUS"  property="healthStatus"/>
     </resultMap>
-	
+
+    <!--배치 등록-->
+
 </mapper>
 
 

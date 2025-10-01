@@ -12,6 +12,33 @@
         <result column="SHIPMENT_STATUS"    property="shipmentStatus"/>
         <result column="FARM_NUM"           property="farmNum"/>
     </resultMap>
+    <!--배치 번호 생성-->
+    <select id="createBatchId" resultType="String">
+        SELECT CONCAT(
+            YEAR(NOW())
+            , '-'
+            , LPAD(IFNULL(MAX(CONVERT(SUBSTRING(BATCH_ID, 6), UNSIGNED)), 0) + 1, 3, '0')
+        )
+        FROM CHICKEN_BATCH
+        WHERE BATCH_ID LIKE CONCAT(YEAR(NOW()), '-%')
+    </select>
+
+    <!--배치 등록-->
+    <insert id="regBatch">
+        INSERT INTO CHICKEN_BATCH (
+            BATCH_ID
+            , ENTRY_DATE
+            , INITIAL_COUNT
+            , CURRENT_COUNT
+            , FARM_NUM
+        ) VALUES (
+            #{batchId}
+            , #{entryDate}
+            , #{initialCount}
+            , #{currentCount}
+            , #{farmNum}
+        )
+    </insert>
 </mapper>
 
 
