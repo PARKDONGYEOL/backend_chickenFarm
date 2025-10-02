@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<!-- namespace에는 xml파일과 연결할 Mapper interface 파일명을 패키지를 포함하여 적어주세요 -->
+<mapper namespace="com.backend.chickenFarm.chicken.mapper.ChickenMapper">
+    <resultMap id="chicken" type="com.backend.chickenFarm.chicken.dto.ChickenDTO">
+        <id     column="CHICKEN_ID"     property="chickenId"/>
+        <result column="RAW_WEIGHT"     property="rawWeight"/>
+        <result column="AGE"            property="age"/>
+        <result column="GROWTH_STAGE"   property="growthStage"/>
+        <result column="BATCH_ID"       property="batchId"/>
+        <result column="FARM_NUM"       property="farmNum"/>
+        <result column="HEALTH_STATUS"  property="healthStatus"/>
+    </resultMap>
+
+    <!--ChickenWeightHistoryDTO의 resultMap-->
+    <resultMap id="weightHistory" type="com.backend.chickenFarm.chicken.dto.ChickenWeightHistoryDTO">
+        <result column="HISTORY_ID"     property="historyId" />
+        <result column="CHICKEN_ID"     property="chickenId" />
+        <result column="RAW_WEIGHT"     property="rawWeight" />
+        <result column="REC_TIME"       property="recTime" />
+        <result column="REC_AGE"        property="recAge" />
+    </resultMap>
+
+    <!--개체 생성-->
+    <insert id="regChickens">
+        INSERT INTO CHICKEN (
+            RAW_WEIGHT
+            , AGE
+            , BATCH_ID
+            , FARM_NUM
+        ) VALUES
+        <foreach collection="chickenList" item="chicken" separator=",">
+            (0 , 1 , #{batchId} , #{farmNum})
+        </foreach>
+    </insert>
+
+    <!--입식일 기준 초기 나이값 = 1-->
+    <!--자정 기준으로 나이 한 살 증가, 나이에 따른 성장 단계 자동 지정-->
+    <update id="updateAgeAndGrowthStage">
+        UPDATE CHICKEN C INNER JOIN CHICKEN_BATCH B
+        ON C.BATCH_ID = B.BATCH_ID
+        SET
+            C.AGE = DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1,
+            C.GROWTH_STAGE =
+                CASE
+                    WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 BETWEEN 1 AND 14 THEN 'CHICK'
+                    WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 BETWEEN 15 AND 28 THEN 'GROWER'
+                    WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 > 28 THEN 'FINISHER'
+                    ELSE C.GROWTH_STAGE
+                END
+
+    </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
