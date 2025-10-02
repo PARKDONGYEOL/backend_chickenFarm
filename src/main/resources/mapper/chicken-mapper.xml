@@ -14,6 +14,15 @@
         <result column="HEALTH_STATUS"  property="healthStatus"/>
     </resultMap>
 
+    <!--ChickenWeightHistoryDTO의 resultMap-->
+    <resultMap id="weightHistory" type="com.backend.chickenFarm.chicken.dto.ChickenWeightHistoryDTO">
+        <result column="HISTORY_ID"     property="historyId" />
+        <result column="CHICKEN_ID"     property="chickenId" />
+        <result column="RAW_WEIGHT"     property="rawWeight" />
+        <result column="REC_TIME"       property="recTime" />
+        <result column="REC_AGE"        property="recAge" />
+    </resultMap>
+
     <!--개체 생성-->
     <insert id="regChickens">
         INSERT INTO CHICKEN (
@@ -21,12 +30,10 @@
             , AGE
             , BATCH_ID
             , FARM_NUM
-        ) VALUES (
-            0
-            , 0
-            , #{batchId}
-            , #{FarmNum}
-        )
+        ) VALUES
+        <foreach collection="chickenList" item="chicken" separator=",">
+            (0 , 1 , #{batchId} , #{farmNum})
+        </foreach>
     </insert>
 
     <!--입식일 기준 초기 나이값 = 1-->
@@ -35,7 +42,7 @@
         UPDATE CHICKEN C INNER JOIN CHICKEN_BATCH B
         ON C.BATCH_ID = B.BATCH_ID
         SET
-            C.AGE = DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1
+            C.AGE = DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1,
             C.GROWTH_STAGE =
                 CASE
                     WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 BETWEEN 1 AND 14 THEN 'CHICK'

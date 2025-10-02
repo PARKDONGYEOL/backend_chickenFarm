@@ -1,15 +1,21 @@
 package com.backend.chickenFarm.chicken_batch.service;
 
+import com.backend.chickenFarm.chicken.dto.ChickenDTO;
+import com.backend.chickenFarm.chicken.mapper.ChickenMapper;
 import com.backend.chickenFarm.chicken_batch.dto.ChickenBatchDTO;
 import com.backend.chickenFarm.chicken_batch.mapper.ChickenBatchMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ChickenBatchService {
   private final ChickenBatchMapper chickenBatchMapper;
+  private final ChickenMapper chickenMapper;
 
   //배치 등록과 동시에 개체 생성(등록)
   @Transactional(rollbackFor = Exception.class)
@@ -20,6 +26,19 @@ public class ChickenBatchService {
 
     chickenBatchMapper.regBatch(chickenBatchDTO); //배치 등록
 
-    //개체 생성(등록)
+    //배치와 겹치는 데이터 개체 빈 값에 넣기
+    ChickenDTO chickenDTO = new ChickenDTO();
+    chickenDTO.setBatchId(chickenBatchDTO.getBatchId());
+    chickenDTO.setFarmNum(chickenBatchDTO.getFarmNum());
+
+    //반복 돌릴 리스트 생성
+    List<Integer> chickenList = new ArrayList<>();
+    for(int i = 0; i < chickenBatchDTO.getInitialCount(); i++){
+      chickenList.add(i);
+    }
+    chickenDTO.setChickenList(chickenList);
+
+    //개체 등록
+    chickenMapper.regChickens(chickenDTO);
   }
 }
