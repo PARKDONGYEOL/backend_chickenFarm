@@ -4,6 +4,7 @@
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <!-- namespace에는 xml파일과 연결할 Mapper interface 파일명을 패키지를 포함하여 적어주세요 -->
 <mapper namespace="com.backend.chickenFarm.member.mapper.MemberMapper">
+
     <resultMap id="member" type="com.backend.chickenFarm.member.dto.MemberDTO">
         <id         column="MEM_ID"         property="memId" />
         <result     column="MEM_PW"         property="memPw" />
@@ -12,40 +13,37 @@
         <result     column="ROLE"           property="role" />
     </resultMap>
 
+    <!-- 기존 로그인 쿼리 -->
     <select id="getMember" resultMap="member">
         SELECT
-            MEM_ID,
-            CONTACT,
-            NAME,
-            ROLE
-        FROM member
-            WHERE MEM_ID = #{memId}
-            AND MEM_PW = #{memPw}
+        MEM_ID,
+        CONTACT,
+        NAME,
+        ROLE
+        FROM MEMBER
+        WHERE MEM_ID = #{memId}
+        AND MEM_PW = #{memPw}
     </select>
 
+    <!-- 현재 비밀번호 조회 (비밀번호 검증용) -->
+    <select id="getCurrentPassword" resultType="String">
+        SELECT MEM_PW
+        FROM MEMBER
+        WHERE MEM_ID = #{memId}
+    </select>
+
+    <!-- 비밀번호 변경 -->
+    <update id="updatePassword">
+        UPDATE MEMBER
+        SET MEM_PW = #{newPassword}
+        WHERE MEM_ID = #{memId}
+    </update>
+
+    <!-- 이름 변경 -->
+    <update id="updateName">
+        UPDATE MEMBER
+        SET NAME = #{newName}
+        WHERE MEM_ID = #{memId}
+    </update>
+
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
