@@ -14,8 +14,37 @@
         <result column="HEALTH_STATUS"  property="healthStatus"/>
     </resultMap>
 
-    <!--배치 등록-->
+    <!--개체 생성-->
+    <insert id="regChickens">
+        INSERT INTO CHICKEN (
+            RAW_WEIGHT
+            , AGE
+            , BATCH_ID
+            , FARM_NUM
+        ) VALUES (
+            0
+            , 0
+            , #{batchId}
+            , #{FarmNum}
+        )
+    </insert>
 
+    <!--입식일 기준 초기 나이값 = 1-->
+    <!--자정 기준으로 나이 한 살 증가, 나이에 따른 성장 단계 자동 지정-->
+    <update id="updateAgeAndGrowthStage">
+        UPDATE CHICKEN C INNER JOIN CHICKEN_BATCH B
+        ON C.BATCH_ID = B.BATCH_ID
+        SET
+            C.AGE = DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1
+            C.GROWTH_STAGE =
+                CASE
+                    WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 BETWEEN 1 AND 14 THEN 'CHICK'
+                    WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 BETWEEN 15 AND 28 THEN 'GROWER'
+                    WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 > 28 THEN 'FINISHER'
+                    ELSE C.GROWTH_STAGE
+                END
+
+    </update>
 </mapper>
 
 
