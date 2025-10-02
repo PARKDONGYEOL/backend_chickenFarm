@@ -12,6 +12,7 @@
         <result column="REC_TIME"           property="recTime" />
     </resultMap>
 
+
     <select id="getThSensor" resultMap="thSensor">
         SELECT
         TH_SENSOR_ID,
