@@ -39,6 +39,17 @@
             , #{farmNum}
         )
     </insert>
+
+    <!--배치 정보 조회-->
+    <select id="getBatchInfo" resultMap="batch">
+        SELECT FARM_NUM
+            , BATCH_ID
+            , ENTRY_DATE
+            , INITIAL_COUNT
+            , CURRENT_COUNT
+            , SHIPMENT_STATUS
+        FROM CHICKEN_BATCH
+    </select>
 </mapper>
 
 

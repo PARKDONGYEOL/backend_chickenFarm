@@ -50,7 +50,30 @@
                     WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 > 28 THEN 'FINISHER'
                     ELSE C.GROWTH_STAGE
                 END
+    </update>
 
+    <!--몸무게 히스토리 테이블에 기록-->
+    <insert id="insertChickenWeight">
+        INSERT INTO CHICKEN_WEIGHT_HISTORY(
+            CHICKEN_ID
+            , RAW_WEIGHT
+            , REC_AGE
+        )
+        VALUES(
+            #{chickenId},
+            #{rawWeight},
+            (SELECT DATEDIFF(NOW(), B.ENTRY_DATE) + 1
+            FROM CHICKEN C INNER JOIN CHICKEN_BATCH B
+            ON C.BATCH_ID = B.BATCH_ID
+            WHERE C.CHICKEN_ID = #{chickenId})
+        )
+    </insert>
+
+    <!--닭 몸무게 업데이트-->
+    <update id="updateChickenWeight">
+        UPDATE CHICKEN
+        SET RAW_WEIGHT = #{rawWeight}
+        WHERE CHICKEN_ID = #{chickenId}
     </update>
 </mapper>
 
