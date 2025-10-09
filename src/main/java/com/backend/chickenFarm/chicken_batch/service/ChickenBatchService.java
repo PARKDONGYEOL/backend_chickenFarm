@@ -47,5 +47,8 @@ public class ChickenBatchService {
     return chickenBatchMapper.getBatchInfoList();
   }
 
-
+  //배치 출하
+  public void shipmentBatches(ChickenBatchDTO chickenBatchDTO) {
+    chickenBatchMapper.updateShipmentStatus(chickenBatchDTO);
+  }
 }

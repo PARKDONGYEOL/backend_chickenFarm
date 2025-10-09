@@ -41,4 +41,17 @@ public class ChickenBatchController {
     }
   }
 
+  //배치 출하
+  @PutMapping("/shipment")
+  public ResponseEntity<?> shipmentBatch(@RequestBody ChickenBatchDTO chickenBatchDTO) {
+    try {
+      chickenBatchService.shipmentBatches(chickenBatchDTO);
+      return ResponseEntity.status(HttpStatus.OK).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return ResponseEntity
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body("배치 출하 쿼리 실행 중 오류가 발생했습니다.");
+    }
+  }
 }

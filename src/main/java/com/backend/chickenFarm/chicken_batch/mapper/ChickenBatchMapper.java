@@ -16,4 +16,6 @@ public interface ChickenBatchMapper {
   //배치 정보 조회
   public List<ChickenBatchDTO> getBatchInfoList();
 
+  //배치 출하
+  public void updateShipmentStatus(ChickenBatchDTO chickenBatchDTO);
 }

@@ -52,6 +52,16 @@
         WHERE SHIPMENT_STATUS = FALSE
     </select>
 
+    <!--배치 출하-->
+    <update id="updateShipmentStatus">
+        UPDATE CHICKEN_BATCH
+        SET SHIPMENT_STATUS = TRUE
+        WHERE BATCH_ID IN
+        <foreach collection="batchIdList" item="batchId" separator="," open="(" close=")">
+            #{batchId}
+        </foreach>
+    </update>
+
 </mapper>
 
 
