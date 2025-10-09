@@ -43,7 +43,9 @@ public class ChickenBatchService {
   }
 
   //배치 정보 조회
-  public List<ChickenBatchDTO> getBatchInfo(){
-    return chickenBatchMapper.getBatchInfo();
+  public List<ChickenBatchDTO> getBatchInfoList(){
+    return chickenBatchMapper.getBatchInfoList();
   }
+
+
 }

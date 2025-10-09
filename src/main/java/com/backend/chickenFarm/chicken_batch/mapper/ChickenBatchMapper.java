@@ -14,5 +14,6 @@ public interface ChickenBatchMapper {
   public void regBatch(ChickenBatchDTO chickenBatchDTO);
 
   //배치 정보 조회
-  public List<ChickenBatchDTO> getBatchInfo();
+  public List<ChickenBatchDTO> getBatchInfoList();
+
 }

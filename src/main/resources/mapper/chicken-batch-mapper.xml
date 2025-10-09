@@ -41,7 +41,7 @@
     </insert>
 
     <!--배치 정보 조회-->
-    <select id="getBatchInfo" resultMap="batch">
+    <select id="getBatchInfoList" resultMap="batch">
         SELECT FARM_NUM
             , BATCH_ID
             , ENTRY_DATE
@@ -49,7 +49,9 @@
             , CURRENT_COUNT
             , SHIPMENT_STATUS
         FROM CHICKEN_BATCH
+        WHERE SHIPMENT_STATUS = FALSE
     </select>
+
 </mapper>
 
 

@@ -29,15 +29,16 @@ public class ChickenBatchController {
   }
 
   @GetMapping("/info")
-  public ResponseEntity<?> getBatchInfo(){
+  public ResponseEntity<?> getBatchInfoList(){
     try {
-      List<ChickenBatchDTO> list = chickenBatchService.getBatchInfo();
+      List<ChickenBatchDTO> list = chickenBatchService.getBatchInfoList();
       return ResponseEntity.status(HttpStatus.OK).body(list);
     }catch (Exception e){
       e.printStackTrace();
       return ResponseEntity
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .body("배치 정보 조회 쿼리 실행 중 오류가 발생했습니다.");
+              .body("배치 리스트 정보 조회 쿼리 실행 중 오류가 발생했습니다.");
     }
   }
+
 }

@@ -1,14 +1,14 @@
 package com.backend.chickenFarm.chicken.controller;
 
+import com.backend.chickenFarm.chicken.dto.ChickenDTO;
 import com.backend.chickenFarm.chicken.dto.ChickenWeightHistoryDTO;
 import com.backend.chickenFarm.chicken.service.ChickenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +28,19 @@ public class ChickenController {
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body("몸무게 기록 쿼리 실행 중 오류가 발생했습니다.");
     }
+  }
 
+  //닭 정보 조회
+  @GetMapping("/{batchId}")
+  public ResponseEntity<?> getChickenInfo(@PathVariable("batchId") String batchId){
+    try {
+      List<ChickenDTO> chickenList = chickenService.getChickenInfo(batchId);
+      return ResponseEntity.status(HttpStatus.OK).body(chickenList);
+    }catch (Exception e){
+      e.printStackTrace();
+      return ResponseEntity
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body("닭 정보 조회 쿼리 실행 중 오류가 발생했습니다.");
+    }
   }
 }

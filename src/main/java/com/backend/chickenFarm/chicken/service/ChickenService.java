@@ -1,11 +1,14 @@
 package com.backend.chickenFarm.chicken.service;
 
+import com.backend.chickenFarm.chicken.dto.ChickenDTO;
 import com.backend.chickenFarm.chicken.dto.ChickenWeightHistoryDTO;
 import com.backend.chickenFarm.chicken.mapper.ChickenMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,5 +26,10 @@ public class ChickenService {
   public void insertAndUpdateChickenWeight(ChickenWeightHistoryDTO weightHistoryDTO){
     chickenMapper.insertChickenWeight(weightHistoryDTO);
     chickenMapper.updateChickenWeight(weightHistoryDTO);
+  }
+
+  //닭 정보 조회
+  public List<ChickenDTO> getChickenInfo(String batchId){
+    return chickenMapper.getChickenInfo(batchId);
   }
 }
