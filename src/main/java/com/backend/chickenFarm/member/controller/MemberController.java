@@ -9,8 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/member")
-@CrossOrigin(origins = "*") // CORS 허용 (개발용)
+@RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
 

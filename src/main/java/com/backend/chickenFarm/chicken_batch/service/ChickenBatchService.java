@@ -41,4 +41,14 @@ public class ChickenBatchService {
     //개체 등록
     chickenMapper.regChickens(chickenDTO);
   }
+
+  //배치 정보 조회
+  public List<ChickenBatchDTO> getBatchInfoList(){
+    return chickenBatchMapper.getBatchInfoList();
+  }
+
+  //배치 출하
+  public void shipmentBatches(ChickenBatchDTO chickenBatchDTO) {
+    chickenBatchMapper.updateShipmentStatus(chickenBatchDTO);
+  }
 }

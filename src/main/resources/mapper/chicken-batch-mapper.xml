@@ -39,6 +39,29 @@
             , #{farmNum}
         )
     </insert>
+
+    <!--배치 정보 조회-->
+    <select id="getBatchInfoList" resultMap="batch">
+        SELECT FARM_NUM
+            , BATCH_ID
+            , ENTRY_DATE
+            , INITIAL_COUNT
+            , CURRENT_COUNT
+            , SHIPMENT_STATUS
+        FROM CHICKEN_BATCH
+        WHERE SHIPMENT_STATUS = FALSE
+    </select>
+
+    <!--배치 출하-->
+    <update id="updateShipmentStatus">
+        UPDATE CHICKEN_BATCH
+        SET SHIPMENT_STATUS = TRUE
+        WHERE BATCH_ID IN
+        <foreach collection="batchIdList" item="batchId" separator="," open="(" close=")">
+            #{batchId}
+        </foreach>
+    </update>
+
 </mapper>
 
 

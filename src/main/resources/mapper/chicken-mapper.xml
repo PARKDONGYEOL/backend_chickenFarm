@@ -12,6 +12,7 @@
         <result column="BATCH_ID"       property="batchId"/>
         <result column="FARM_NUM"       property="farmNum"/>
         <result column="HEALTH_STATUS"  property="healthStatus"/>
+        <association property="batchDTO" resultMap="com.backend.chickenFarm.chicken_batch.mapper.ChickenBatchMapper.batch"/>
     </resultMap>
 
     <!--ChickenWeightHistoryDTO의 resultMap-->
@@ -50,8 +51,46 @@
                     WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 > 28 THEN 'FINISHER'
                     ELSE C.GROWTH_STAGE
                 END
-
     </update>
+
+    <!--몸무게 히스토리 테이블에 기록-->
+    <insert id="insertChickenWeight">
+        INSERT INTO CHICKEN_WEIGHT_HISTORY(
+            CHICKEN_ID
+            , RAW_WEIGHT
+            , REC_AGE
+        )
+        VALUES(
+            #{chickenId},
+            #{rawWeight},
+            (SELECT DATEDIFF(NOW(), B.ENTRY_DATE) + 1
+            FROM CHICKEN C INNER JOIN CHICKEN_BATCH B
+            ON C.BATCH_ID = B.BATCH_ID
+            WHERE C.CHICKEN_ID = #{chickenId})
+        )
+    </insert>
+
+    <!--닭 몸무게 업데이트-->
+    <update id="updateChickenWeight">
+        UPDATE CHICKEN
+        SET RAW_WEIGHT = #{rawWeight}
+        WHERE CHICKEN_ID = #{chickenId}
+    </update>
+
+    <!--닭 개체 정보 조회-->
+    <select id="getChickenInfo" resultMap="chicken">
+        SELECT C.CHICKEN_ID
+            , C.RAW_WEIGHT
+            , C.AGE
+            , C.GROWTH_STAGE
+            , C.BATCH_ID
+            , C.HEALTH_STATUS
+            , B.INITIAL_COUNT
+            , B.CURRENT_COUNT
+        FROM CHICKEN C INNER JOIN CHICKEN_BATCH B
+        ON C.BATCH_ID = B.BATCH_ID
+        WHERE C.BATCH_ID = #{batchId}
+    </select>
 </mapper>
 
 

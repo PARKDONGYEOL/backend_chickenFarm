@@ -3,6 +3,7 @@ package com.backend.chickenFarm.chicken_batch.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class ChickenBatchDTO {
@@ -12,4 +13,6 @@ public class ChickenBatchDTO {
   private int currentCount;
   private boolean shipmentStatus;
   private int farmNum;
+
+  private List<String> batchIdList;
 }
