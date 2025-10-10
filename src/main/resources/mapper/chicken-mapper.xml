@@ -91,6 +91,31 @@
         ON C.BATCH_ID = B.BATCH_ID
         WHERE C.BATCH_ID = #{batchId}
     </select>
+
+    <!--체크된 개체 폐사 처리-->
+    <update id="updateDead">
+        UPDATE CHICKEN
+        SET HEALTH_STATUS = 'DEAD'
+        WHERE CHICKEN_ID IN
+        <foreach collection="chickenIdList" item="chickenId" separator="," open="(" close=")">
+            #{chickenId}
+        </foreach>
+    </update>
+
+    <!--건강 상태 수정-->
+    <update id="updateHealthStatus">
+        UPDATE CHICKEN
+        SET HEALTH_STATUS =
+            CASE
+                WHEN HEALTH_STATUS = 'HEALTHY' THEN 'SICK'
+                WHEN HEALTH_STATUS = 'SICK' THEN 'HEALTHY'
+                ELSE HEALTH_STATUS
+            END
+        WHERE CHICKEN_ID IN
+        <foreach collection="chickenIdList" item="chickenId" separator="," open="(" close=")">
+            #{chickenId}
+        </foreach>
+    </update>
 </mapper>
 
 
