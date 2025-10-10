@@ -1,0 +1,11 @@
+package com.backend.chickenFarm.danger_notice.service;
+
+import com.backend.chickenFarm.danger_notice.mapper.DangerNoticeMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class DangerNoticeService {
+  private final DangerNoticeMapper dangerNoticeMapper;
+}
