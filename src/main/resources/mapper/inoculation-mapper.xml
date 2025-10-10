@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.chickenFarm.inoculation.mapper.InoculationMapper">
+
+    <select id="getChickensByBatch" resultType="java.util.HashMap">
+        SELECT
+        c.CHICKEN_ID as chickenId,
+        c.BATCH_ID as batchId,
+        c.AGE as age,
+        c.RAW_WEIGHT as weight,
+        c.GROWTH_STAGE as growthStage,
+        c.HEALTH_STATUS as healthStatus,
+        c.FARM_NUM as farmNum,
+        COALESCE(MAX(CASE WHEN cih.VACCINE_TYPE = 'ND' THEN 1 ELSE 0 END), 0) as nd,
+        COALESCE(MAX(CASE WHEN cih.VACCINE_TYPE = 'HPAI' THEN 1 ELSE 0 END), 0) as hpai,
+        COALESCE(MAX(CASE WHEN cih.VACCINE_TYPE = 'IBD' THEN 1 ELSE 0 END), 0) as ibd,
+        COALESCE(MAX(CASE WHEN cih.VACCINE_TYPE = 'IB' THEN 1 ELSE 0 END), 0) as ib
+        FROM CHICKEN c
+        LEFT JOIN CHICKEN_INOCULATION_HISTORY cih ON c.CHICKEN_ID = cih.CHICKEN_ID
+        WHERE c.BATCH_ID = #{batchId}
+        GROUP BY c.CHICKEN_ID, c.BATCH_ID, c.AGE, c.RAW_WEIGHT, c.GROWTH_STAGE, c.HEALTH_STATUS, c.FARM_NUM
+        ORDER BY c.CHICKEN_ID
+    </select>
+
+    <select id="getBatchesByFarm" resultType="java.util.HashMap">
+        SELECT
+        BATCH_ID as batchId,
+        ENTRY_DATE as entryDate,
+        INITIAL_COUNT as initialCount,
+        CURRENT_COUNT as currentCount,
+        SHIPMENT_STATUS as shipmentStatus,
+        FARM_NUM as farmNum
+        FROM CHICKEN_BATCH
+        WHERE FARM_NUM = #{farmNum}
+        AND SHIPMENT_STATUS = FALSE
+        ORDER BY ENTRY_DATE DESC
+    </select>
+
+    <insert id="performInoculation">
+        INSERT INTO CHICKEN_INOCULATION_HISTORY
+        (CHICKEN_ID, VACCINE_TYPE, VACCINATION_DATE, VACCINATION_METHOD, VACCINATED_BY, NOTE)
+        VALUES
+        <foreach collection="chickenIds" item="chickenId" separator=",">
+            (
+            #{chickenId},
+            #{vaccineType},
+            #{vaccinationDate},
+            #{vaccinationMethod},
+            #{vaccinatedBy},
+            #{notes}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="performInoculationSingle">
+        INSERT INTO CHICKEN_INOCULATION_HISTORY
+        (CHICKEN_ID, VACCINE_TYPE, VACCINATION_DATE, VACCINATION_METHOD, VACCINATED_BY, NOTE)
+        VALUES (
+        #{chickenId},
+        #{vaccineType},
+        #{vaccinationDate},
+        #{vaccinationMethod},
+        #{vaccinatedBy},
+        #{notes}
+        )
+    </insert>
+
+    <delete id="deleteInoculation">
+        DELETE FROM CHICKEN_INOCULATION_HISTORY
+        WHERE CHICKEN_ID IN
+        <foreach collection="chickenIds" item="chickenId" open="(" separator="," close=")">
+            #{chickenId}
+        </foreach>
+        AND VACCINE_TYPE = #{vaccineType}
+    </delete>
+
+    <select id="getInoculationHistory" resultType="java.util.HashMap">
+        SELECT
+        HISTORY_ID as historyId,
+        CHICKEN_ID as chickenId,
+        VACCINE_TYPE as vaccineType,
+        VACCINATION_DATE as vaccinationDate,
+        VACCINATION_METHOD as vaccinationMethod,
+        VACCINATED_BY as vaccinatedBy,
+        NOTE as notes
+        FROM CHICKEN_INOCULATION_HISTORY
+        WHERE CHICKEN_ID = #{chickenId}
+        ORDER BY VACCINATION_DATE DESC
+    </select>
+
+    <select id="getInoculationHistoryByBatch" resultType="java.util.HashMap">
+        SELECT
+        cih.HISTORY_ID as historyId,
+        cih.CHICKEN_ID as chickenId,
+        cih.VACCINE_TYPE as vaccineType,
+        cih.VACCINATION_DATE as vaccinationDate,
+        cih.VACCINATION_METHOD as vaccinationMethod,
+        cih.VACCINATED_BY as vaccinatedBy,
+        cih.NOTE as notes
+        FROM CHICKEN_INOCULATION_HISTORY cih
+        INNER JOIN CHICKEN c ON cih.CHICKEN_ID = c.CHICKEN_ID
+        WHERE c.BATCH_ID = #{batchId}
+        ORDER BY cih.VACCINATION_DATE DESC, cih.CHICKEN_ID
+    </select>
+
+    <select id="getInoculationStats" resultType="java.util.HashMap">
+        SELECT
+        cb.BATCH_ID as batchId,
+        cb.CURRENT_COUNT as totalChickens,
+        COUNT(DISTINCT CASE WHEN cih.VACCINE_TYPE = 'ND' THEN cih.CHICKEN_ID END) as ndCompleted,
+        COUNT(DISTINCT CASE WHEN cih.VACCINE_TYPE = 'HPAI' THEN cih.CHICKEN_ID END) as hpaiCompleted,
+        COUNT(DISTINCT CASE WHEN cih.VACCINE_TYPE = 'IBD' THEN cih.CHICKEN_ID END) as ibdCompleted,
+        COUNT(DISTINCT CASE WHEN cih.VACCINE_TYPE = 'IB' THEN cih.CHICKEN_ID END) as ibCompleted
+        FROM CHICKEN_BATCH cb
+        LEFT JOIN CHICKEN c ON cb.BATCH_ID = c.BATCH_ID
+        LEFT JOIN CHICKEN_INOCULATION_HISTORY cih ON c.CHICKEN_ID = cih.CHICKEN_ID
+        WHERE cb.BATCH_ID = #{batchId}
+        GROUP BY cb.BATCH_ID, cb.CURRENT_COUNT
+    </select>
+
+</mapper>
