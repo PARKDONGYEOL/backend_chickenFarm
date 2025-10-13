@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.chickenFarm.farm_status.mapper.FarmStatusMapper">
+
+    <!-- 일일 데이터 조회 -->
+    <select id="getDailyData" resultType="com.backend.chickenFarm.farm_status.dto.FarmStatusDTO">
+        SELECT
+            FARM_STATUS_NUM as farmStatusNum,
+            NO2_DATA as no2Data,
+            TEMP_DATA as tempData,
+            HUM_DATA as humData,
+            LUX_DATA as luxData,
+            CO2_DATA as co2Data,
+            NH3_DATA as nh3Data,
+            REC_TIME as recTime,
+            FARM_ID as farmId
+        FROM farm_status
+        WHERE FARM_ID = #{farmId}
+        AND DATE(REC_TIME) = #{date}
+        ORDER BY REC_TIME ASC
+    </select>
+
+    <!-- 주간 데이터 조회 -->
+    <select id="getWeeklyData" resultType="com.backend.chickenFarm.farm_status.dto.FarmStatusDTO">
+        SELECT
+            CONCAT(DATE(REC_TIME), ' 00:00:00') as recTime,
+            AVG(NO2_DATA) as no2Data,
+            AVG(TEMP_DATA) as tempData,
+            AVG(HUM_DATA) as humData,
+            AVG(LUX_DATA) as luxData,
+            AVG(CO2_DATA) as co2Data,
+            AVG(NH3_DATA) as nh3Data,
+            #{farmId} as farmId
+        FROM farm_status
+        WHERE FARM_ID = #{farmId}
+        AND DATE(REC_TIME) BETWEEN #{startDate} AND #{endDate}
+        GROUP BY DATE(REC_TIME)
+        ORDER BY DATE(REC_TIME) ASC
+    </select>
+
+    <!-- 월간 데이터 조회 (월별 평균) -->
+    <select id="getMonthlyData" resultType="com.backend.chickenFarm.farm_status.dto.FarmStatusDTO">
+        SELECT
+            CONCAT(DATE_FORMAT(REC_TIME, '%Y-%m'), '-01 00:00:00') as recTime,
+            AVG(NO2_DATA) as no2Data,
+            AVG(TEMP_DATA) as tempData,
+            AVG(HUM_DATA) as humData,
+            AVG(LUX_DATA) as luxData,
+            AVG(CO2_DATA) as co2Data,
+            AVG(NH3_DATA) as nh3Data,
+            #{farmId} as farmId
+        FROM farm_status
+        WHERE FARM_ID = #{farmId}
+        AND YEAR(REC_TIME) = YEAR(STR_TO_DATE(CONCAT(#{yearMonth}, '-01'), '%Y-%m-%d'))
+        GROUP BY DATE_FORMAT(REC_TIME, '%Y-%m')
+        ORDER BY DATE_FORMAT(REC_TIME, '%Y-%m') ASC
+    </select>
+
+    <!-- 최신 데이터 조회 -->
+    <select id="getLatestData" resultType="com.backend.chickenFarm.farm_status.dto.FarmStatusDTO">
+        SELECT
+            FARM_STATUS_NUM as farmStatusNum,
+            NO2_DATA as no2Data,
+            TEMP_DATA as tempData,
+            HUM_DATA as humData,
+            LUX_DATA as luxData,
+            CO2_DATA as co2Data,
+            NH3_DATA as nh3Data,
+            REC_TIME as recTime,
+            FARM_ID as farmId
+        FROM farm_status
+        WHERE FARM_ID = #{farmId}
+        ORDER BY REC_TIME DESC
+        LIMIT 1
+    </select>
+
+</mapper>
