@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.chickenFarm.env_settings.mapper.EnvSettingsMapper">
+
+    <!-- 환경 설정 조회 -->
+    <select id="getEnvSettings" resultType="java.util.Map">
+        SELECT 
+            LED_THRESHOLD as ledThreshold,
+            AUTO_LED_MODE as autoLedMode,
+            MANUAL_LED_THRESHOLD as manualLedThreshold,
+            LOCATION_LAT as locationLat,
+            LOCATION_LNG as locationLng,
+            SLEEP_START_HOUR as sleepStartHour,
+            SLEEP_END_HOUR as sleepEndHour,
+            SLEEP_MODE_ENABLED as sleepModeEnabled,
+            DOOR_OPEN_TEMP as doorOpenTemp,
+            DOOR_CLOSE_TEMP as doorCloseTemp,
+            FAN_HUMIDITY_THRESHOLD as fanHumidityThreshold,
+            FAN_CO2_THRESHOLD as fanCO2Threshold,
+            FAN_CO_THRESHOLD as fanCOThreshold,
+            FAN_SPEED as fanSpeed,
+            TEMP_HIGH_ALERT as tempHighAlert,
+            TEMP_LOW_ALERT as tempLowAlert,
+            HUMIDITY_HIGH_ALERT as humidityHighAlert,
+            HUMIDITY_LOW_ALERT as humidityLowAlert,
+            CO2_ALERT as co2Alert,
+            CO_ALERT as coAlert,
+            NH3_ALERT as nh3Alert,
+            ENV_STATUS_GOOD as envStatusGood,
+            ENV_STATUS_FAIR as envStatusFair
+        FROM ENV_SETTINGS
+        WHERE ID = 1
+    </select>
+
+    <!-- 환경 설정 업데이트 -->
+    <update id="updateEnvSettings" parameterType="java.util.Map">
+        UPDATE ENV_SETTINGS SET
+            LED_THRESHOLD = #{settings.ledThreshold},
+            AUTO_LED_MODE = #{settings.autoLedMode},
+            MANUAL_LED_THRESHOLD = #{settings.manualLedThreshold},
+            LOCATION_LAT = #{settings.locationLat},
+            LOCATION_LNG = #{settings.locationLng},
+            SLEEP_START_HOUR = #{settings.sleepStartHour},
+            SLEEP_END_HOUR = #{settings.sleepEndHour},
+            SLEEP_MODE_ENABLED = #{settings.sleepModeEnabled},
+            DOOR_OPEN_TEMP = #{settings.doorOpenTemp},
+            DOOR_CLOSE_TEMP = #{settings.doorCloseTemp},
+            FAN_HUMIDITY_THRESHOLD = #{settings.fanHumidityThreshold},
+            FAN_CO2_THRESHOLD = #{settings.fanCO2Threshold},
+            FAN_CO_THRESHOLD = #{settings.fanCOThreshold},
+            FAN_SPEED = #{settings.fanSpeed},
+            TEMP_HIGH_ALERT = #{settings.tempHighAlert},
+            TEMP_LOW_ALERT = #{settings.tempLowAlert},
+            HUMIDITY_HIGH_ALERT = #{settings.humidityHighAlert},
+            HUMIDITY_LOW_ALERT = #{settings.humidityLowAlert},
+            CO2_ALERT = #{settings.co2Alert},
+            CO_ALERT = #{settings.coAlert},
+            NH3_ALERT = #{settings.nh3Alert},
+            ENV_STATUS_GOOD = #{settings.envStatusGood},
+            ENV_STATUS_FAIR = #{settings.envStatusFair},
+            UPDATED_AT = NOW()
+        WHERE ID = 1
+    </update>
+
+    <!-- 환경 설정 삽입 (초기 설정) -->
+    <insert id="insertEnvSettings" parameterType="java.util.Map">
+        INSERT INTO ENV_SETTINGS (
+            ID,
+            LED_THRESHOLD,
+            AUTO_LED_MODE,
+            MANUAL_LED_THRESHOLD,
+            LOCATION_LAT,
+            LOCATION_LNG,
+            SLEEP_START_HOUR,
+            SLEEP_END_HOUR,
+            SLEEP_MODE_ENABLED,
+            DOOR_OPEN_TEMP,
+            DOOR_CLOSE_TEMP,
+            FAN_HUMIDITY_THRESHOLD,
+            FAN_CO2_THRESHOLD,
+            FAN_CO_THRESHOLD,
+            FAN_SPEED,
+            TEMP_HIGH_ALERT,
+            TEMP_LOW_ALERT,
+            HUMIDITY_HIGH_ALERT,
+            HUMIDITY_LOW_ALERT,
+            CO2_ALERT,
+            CO_ALERT,
+            NH3_ALERT,
+            ENV_STATUS_GOOD,
+            ENV_STATUS_FAIR,
+            CREATED_AT,
+            UPDATED_AT
+        ) VALUES (
+            1,
+            #{settings.ledThreshold},
+            #{settings.autoLedMode},
+            #{settings.manualLedThreshold},
+            #{settings.locationLat},
+            #{settings.locationLng},
+            #{settings.sleepStartHour},
+            #{settings.sleepEndHour},
+            #{settings.sleepModeEnabled},
+            #{settings.doorOpenTemp},
+            #{settings.doorCloseTemp},
+            #{settings.fanHumidityThreshold},
+            #{settings.fanCO2Threshold},
+            #{settings.fanCOThreshold},
+            #{settings.fanSpeed},
+            #{settings.tempHighAlert},
+            #{settings.tempLowAlert},
+            #{settings.humidityHighAlert},
+            #{settings.humidityLowAlert},
+            #{settings.co2Alert},
+            #{settings.coAlert},
+            #{settings.nh3Alert},
+            #{settings.envStatusGood},
+            #{settings.envStatusFair},
+            NOW(),
+            NOW()
+        )
+    </insert>
+
+</mapper>

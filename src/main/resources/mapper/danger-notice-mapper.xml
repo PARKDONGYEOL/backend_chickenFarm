@@ -8,6 +8,17 @@
         INSERT INTO DANGER_NOTICE (NOTICE_CONTENT, NOTICE_CATEGORY, FARM_NUM)
         VALUES (#{noticeContent}, #{noticeCategory}, #{farmNum})
     </insert>
+
+    <select id="getDangerNotices" resultType="com.backend.chickenFarm.danger_notice.dto.DangerNoticeDTO">
+        SELECT NOTICE_NUM as noticeNum,
+               NOTICE_CONTENT as noticeContent,
+               NOTICE_CATEGORY as noticeCategory,
+               FARM_NUM as farmNum,
+               REC_TIME as recTime
+        FROM DANGER_NOTICE 
+        WHERE FARM_NUM = #{farmNum}
+        ORDER BY REC_TIME DESC
+    </select>
 </mapper>
 
 

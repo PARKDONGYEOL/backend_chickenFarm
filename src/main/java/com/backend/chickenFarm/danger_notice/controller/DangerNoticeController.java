@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +29,17 @@ public class DangerNoticeController {
     try {
       dangerNoticeService.insertDangerNotice(dto);
       return ResponseEntity.ok().body(Map.of("success", true));
+    } catch (Exception e) {
+      e.printStackTrace();
+      return ResponseEntity.status(500).body(Map.of("success", false, "error", e.getMessage()));
+    }
+  }
+
+  @GetMapping("/list/{farmNum}")
+  public ResponseEntity<?> getDangerNotices(@PathVariable int farmNum) {
+    try {
+      List<DangerNoticeDTO> notices = dangerNoticeService.getDangerNotices(farmNum);
+      return ResponseEntity.ok().body(Map.of("success", true, "data", notices));
     } catch (Exception e) {
       e.printStackTrace();
       return ResponseEntity.status(500).body(Map.of("success", false, "error", e.getMessage()));
