@@ -1,7 +1,6 @@
 package com.backend.chickenFarm.chicken.service;
 
 import com.backend.chickenFarm.chicken.dto.ChickenDTO;
-import com.backend.chickenFarm.chicken.dto.ChickenWeightHistoryDTO;
 import com.backend.chickenFarm.chicken.mapper.ChickenMapper;
 import com.backend.chickenFarm.chicken_batch.mapper.ChickenBatchMapper;
 import jakarta.annotation.PostConstruct;
@@ -41,13 +40,6 @@ public class ChickenService {
 
     chickenMapper.updateAgeAndGrowthStage();
     lastUpdateDate = today;
-  }
-
-  //몸무게 히스토리 테이블에 기록 + 새로운 몸무게로 치킨 테이블 몸무게 컬럼값 업데이트
-  @Transactional(rollbackFor = Exception.class)
-  public void insertAndUpdateChickenWeight(ChickenWeightHistoryDTO weightHistoryDTO){
-    chickenMapper.insertChickenWeight(weightHistoryDTO);
-    chickenMapper.updateChickenWeight(weightHistoryDTO);
   }
 
   //개체 정보 조회
