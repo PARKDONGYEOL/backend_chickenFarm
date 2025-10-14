@@ -17,4 +17,5 @@ public class ChickenDTO {
 
   private List<Integer> chickenList; //배치 등록 시 입력한 닭의 수 만큼 개체 생성 반복문을 위한 변수
   private ChickenBatchDTO batchDTO;
+  private List<Integer> chickenIdList; //폐사 체크박스를 위한 변수
 }

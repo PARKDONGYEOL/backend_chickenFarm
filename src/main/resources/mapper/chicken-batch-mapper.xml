@@ -62,6 +62,13 @@
         </foreach>
     </update>
 
+    <!--폐사 개체 늘어난 만큼 현재 개체 줄이기-->
+    <update id="decreaseCurrentCount">
+        UPDATE CHICKEN_BATCH
+        SET CURRENT_COUNT = CURRENT_COUNT - #{deadCount}
+        WHERE BATCH_ID = #{batchId}
+    </update>
+
 </mapper>
 
 

@@ -20,6 +20,12 @@ public interface ChickenMapper {
   //닭 몸무게 업데이트
   public void updateChickenWeight(ChickenWeightHistoryDTO weightHistoryDTO);
 
-  //닭 정보 조회
+  //개체 정보 조회
   public List<ChickenDTO> getChickenInfo(String batchId);
+
+  //체크된 개체 폐사 처리
+  public void updateDead(List<Integer> chickenIdList);
+
+  //건강 상태 수정
+  public void updateHealthStatus(List<Integer> chickenIdList);
 }

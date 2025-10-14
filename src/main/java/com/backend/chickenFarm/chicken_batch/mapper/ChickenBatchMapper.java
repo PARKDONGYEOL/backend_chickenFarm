@@ -2,6 +2,7 @@ package com.backend.chickenFarm.chicken_batch.mapper;
 
 import com.backend.chickenFarm.chicken_batch.dto.ChickenBatchDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface ChickenBatchMapper {
 
   //배치 출하
   public void updateShipmentStatus(ChickenBatchDTO chickenBatchDTO);
+
+  //폐사된 만큼 현재 개체 수 줄이기
+  public void decreaseCurrentCount(@Param("batchId") String batchId, @Param("deadCount") int deadCount);
 }

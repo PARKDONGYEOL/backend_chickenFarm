@@ -17,7 +17,7 @@ public class ChickenController {
   private final ChickenService chickenService;
 
   //몸무게 히스토리 테이블에 기록 + 새로운 몸무게로 치킨 테이블 몸무게 컬럼값 업데이트
-  @PostMapping("")
+  @PostMapping("/weight")
   public ResponseEntity<?> insertAndUpdateChickenWeight(@RequestBody ChickenWeightHistoryDTO weightHistoryDTO){
     try {
       chickenService.insertAndUpdateChickenWeight(weightHistoryDTO);
@@ -30,7 +30,7 @@ public class ChickenController {
     }
   }
 
-  //닭 정보 조회
+  //개체 정보 조회
   @GetMapping("/{batchId}")
   public ResponseEntity<?> getChickenInfo(@PathVariable("batchId") String batchId){
     try {
@@ -41,6 +41,34 @@ public class ChickenController {
       return ResponseEntity
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body("닭 정보 조회 쿼리 실행 중 오류가 발생했습니다.");
+    }
+  }
+
+  //체크된 개체 폐사 처리 + 폐사된 만큼 현재 개체 수 줄이기
+  @PutMapping("/death")
+  public ResponseEntity<?> updateDeadAndCurrentCount(@RequestBody ChickenDTO chickenDTO){
+    try {
+      chickenService.updateDeadAndCurrentCount(chickenDTO.getBatchId(), chickenDTO.getChickenIdList());
+      return ResponseEntity.status(HttpStatus.OK).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return ResponseEntity
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body("개체 폐사 처리 쿼리 실행 중 오류가 발생했습니다.");
+    }
+  }
+
+  //건강 상태 수정
+  @PutMapping("/update-health")
+  public ResponseEntity<?> updateHealthStatus(@RequestBody ChickenDTO chickenDTO){
+    try {
+      chickenService.updateHealthStatus(chickenDTO.getChickenIdList());
+      return ResponseEntity.status(HttpStatus.OK).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return ResponseEntity
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body("건강 상태 수정 쿼리 실행 중 오류가 발생했습니다.");
     }
   }
 }

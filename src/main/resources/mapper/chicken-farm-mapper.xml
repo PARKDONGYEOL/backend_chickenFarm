@@ -4,6 +4,10 @@
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <!-- namespace에는 xml파일과 연결할 Mapper interface 파일명을 패키지를 포함하여 적어주세요 -->
 <mapper namespace="com.backend.chickenFarm.chicken_farm.mapper.ChickenFarmMapper">
+    <resultMap id="farm" type="com.backend.chickenFarm.chicken_farm.dto.ChickenFarmDTO">
+        <id     column="FARM_NUM"   property="farmNum" />
+        <result column="FARM_NAME"  property="farmName"/>
+    </resultMap>
 	<!--양계장 등록-->
     <insert id="regFarmName">
         INSERT INTO CHICKEN_FARM(
@@ -12,6 +16,13 @@
             #{farmName}
         )
     </insert>
+
+    <!--양계장 번호 조회-->
+    <select id="getFarmInfo" resultMap="farm">
+        SELECT FARM_NUM
+            , FARM_NAME
+        FROM CHICKEN_FARM
+    </select>
 </mapper>
 
 
