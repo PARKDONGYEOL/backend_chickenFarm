@@ -9,10 +9,10 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/farm-status")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class FarmStatusController {
 
-    private final FarmStatusService farmStatusService;
+    private final FarmStatusService farmStatusService;   /* dddddd */
 
     // 일일 데이터 조회
     @GetMapping("/daily")

@@ -20,13 +20,33 @@ public class FarmStatusService {
         Map<String, Object> result = new HashMap<>();
 
         try {
+            System.out.println("=== 일일 데이터 조회 시작 ===");
+            System.out.println("Farm ID: " + farmId);
+            System.out.println("Date: " + date);
+            
             List<FarmStatusDTO> data = farmStatusMapper.getDailyData(farmId, date);
+            
+            System.out.println("조회된 데이터 개수: " + (data != null ? data.size() : "null"));
+            
             result.put("success", true);
             result.put("data", data);
-            result.put("count", data.size());
+            result.put("count", data != null ? data.size() : 0);
+            result.put("farmId", farmId);
+            result.put("date", date);
+            
+            System.out.println("=== 일일 데이터 조회 성공 ===");
         } catch (Exception e) {
+            System.out.println("=== 일일 데이터 조회 실패 ===");
+            System.out.println("Farm ID: " + farmId);
+            System.out.println("Date: " + date);
+            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error Type: " + e.getClass().getSimpleName());
+            
             result.put("success", false);
-            result.put("message", "일일 데이터 조회 실패");
+            result.put("message", "일일 데이터 조회 실패: " + e.getMessage());
+            result.put("farmId", farmId);
+            result.put("date", date);
+            result.put("error", e.getClass().getSimpleName());
             e.printStackTrace();
         }
 

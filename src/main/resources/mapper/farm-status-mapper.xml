@@ -18,7 +18,7 @@
             FARM_ID as farmId
         FROM farm_status
         WHERE FARM_ID = #{farmId}
-        AND DATE(REC_TIME) = #{date}
+        AND DATE(REC_TIME) = STR_TO_DATE(#{date}, '%Y-%m-%d')
         ORDER BY REC_TIME ASC
     </select>
 
