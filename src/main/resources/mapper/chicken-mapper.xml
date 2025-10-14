@@ -15,15 +15,6 @@
         <association property="batchDTO" resultMap="com.backend.chickenFarm.chicken_batch.mapper.ChickenBatchMapper.batch"/>
     </resultMap>
 
-    <!--ChickenWeightHistoryDTO의 resultMap-->
-    <resultMap id="weightHistory" type="com.backend.chickenFarm.chicken.dto.ChickenWeightHistoryDTO">
-        <result column="HISTORY_ID"     property="historyId" />
-        <result column="CHICKEN_ID"     property="chickenId" />
-        <result column="RAW_WEIGHT"     property="rawWeight" />
-        <result column="REC_TIME"       property="recTime" />
-        <result column="REC_AGE"        property="recAge" />
-    </resultMap>
-
     <!--개체 생성-->
     <insert id="regChickens">
         INSERT INTO CHICKEN (
@@ -51,30 +42,6 @@
                     WHEN DATEDIFF(CURRENT_DATE(), B.ENTRY_DATE) + 1 > 28 THEN 'FINISHER'
                     ELSE C.GROWTH_STAGE
                 END
-    </update>
-
-    <!--몸무게 히스토리 테이블에 기록-->
-    <insert id="insertChickenWeight">
-        INSERT INTO CHICKEN_WEIGHT_HISTORY(
-            CHICKEN_ID
-            , RAW_WEIGHT
-            , REC_AGE
-        )
-        VALUES(
-            #{chickenId},
-            #{rawWeight},
-            (SELECT DATEDIFF(NOW(), B.ENTRY_DATE) + 1
-            FROM CHICKEN C INNER JOIN CHICKEN_BATCH B
-            ON C.BATCH_ID = B.BATCH_ID
-            WHERE C.CHICKEN_ID = #{chickenId})
-        )
-    </insert>
-
-    <!--닭 몸무게 업데이트-->
-    <update id="updateChickenWeight">
-        UPDATE CHICKEN
-        SET RAW_WEIGHT = #{rawWeight}
-        WHERE CHICKEN_ID = #{chickenId}
     </update>
 
     <!--닭 개체 정보 조회-->
