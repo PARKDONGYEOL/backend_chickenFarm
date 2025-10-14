@@ -17,7 +17,7 @@ public class ChickenController {
   private final ChickenService chickenService;
 
   //몸무게 히스토리 테이블에 기록 + 새로운 몸무게로 치킨 테이블 몸무게 컬럼값 업데이트
-  @PostMapping("")
+  @PostMapping("/weight")
   public ResponseEntity<?> insertAndUpdateChickenWeight(@RequestBody ChickenWeightHistoryDTO weightHistoryDTO){
     try {
       chickenService.insertAndUpdateChickenWeight(weightHistoryDTO);
