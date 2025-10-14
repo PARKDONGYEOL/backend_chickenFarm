@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.chickenFarm.note.mapper.NoteMapper">
+
+    <resultMap id="note" type="com.backend.chickenFarm.note.dto.NoteDTO">
+        <id         column="NOTE_NUM"       property="noteNum" />
+        <result     column="MEM_ID"         property="memId" />
+        <result     column="CONTENT"        property="content" />
+        <result     column="REC_TIME"       property="recTime" />
+    </resultMap>
+
+    <!-- 전체 일지 조회 -->
+    <select id="getAllNotes" resultMap="note">
+        SELECT
+            NOTE_NUM,
+            MEM_ID,
+            CONTENT,
+            REC_TIME
+        FROM NOTE
+        WHERE MEM_ID = #{memId}
+        ORDER BY REC_TIME DESC
+    </select>
+
+    <!-- 특정 날짜의 일지 조회 -->
+    <select id="getNotesByDate" resultMap="note">
+        SELECT
+            NOTE_NUM,
+            MEM_ID,
+            CONTENT,
+            REC_TIME
+        FROM NOTE
+        WHERE MEM_ID = #{memId}
+        AND DATE(REC_TIME) = DATE(#{recTime})
+        ORDER BY REC_TIME DESC
+    </select>
+
+    <!-- 특정 일지 조회 -->
+    <select id="getNoteById" resultMap="note">
+        SELECT
+            NOTE_NUM,
+            MEM_ID,
+            CONTENT,
+            REC_TIME
+        FROM NOTE
+        WHERE NOTE_NUM = #{noteNum}
+    </select>
+
+    <!-- 일지 추가 -->
+    <insert id="insertNote" useGeneratedKeys="true" keyProperty="noteNum">
+        INSERT INTO NOTE (MEM_ID, CONTENT, REC_TIME)
+        VALUES (#{memId}, #{content}, NOW())
+    </insert>
+
+    <!-- 일지 수정 -->
+    <update id="updateNote">
+        UPDATE NOTE
+        SET CONTENT = #{content}
+        WHERE NOTE_NUM = #{noteNum}
+    </update>
+
+    <!-- 일지 삭제 -->
+    <delete id="deleteNote">
+        DELETE FROM NOTE
+        WHERE NOTE_NUM = #{noteNum}
+    </delete>
+
+</mapper>
