@@ -11,7 +11,10 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/chicken")
+@RequestMapping("/api/chicken")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://192.168.30.*:5173"})
 public class ChickenController {
   private final ChickenService chickenService;
 

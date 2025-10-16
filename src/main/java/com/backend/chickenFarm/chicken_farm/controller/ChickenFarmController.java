@@ -11,7 +11,10 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/farm")
+@RequestMapping("/api/farm")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://192.168.30.*:5173"})
 public class ChickenFarmController {
   private final ChickenFarmService chickenFarmService;
 

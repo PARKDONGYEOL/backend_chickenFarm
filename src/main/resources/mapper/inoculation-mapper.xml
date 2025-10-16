@@ -9,7 +9,7 @@
         c.CHICKEN_ID as chickenId,
         c.BATCH_ID as batchId,
         c.AGE as age,
-        c.RAW_WEIGHT as weight,
+        c.RAW_WEIGHT as rawWeight,
         c.GROWTH_STAGE as growthStage,
         c.HEALTH_STATUS as healthStatus,
         c.FARM_NUM as farmNum,

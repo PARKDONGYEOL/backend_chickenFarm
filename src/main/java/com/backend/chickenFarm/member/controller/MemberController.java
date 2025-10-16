@@ -9,7 +9,10 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/api/member")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://192.168.30.*:5173"})
 public class MemberController {
     private final MemberService memberService;
 

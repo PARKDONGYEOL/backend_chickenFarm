@@ -18,7 +18,7 @@ public class InoculationDTO {
     // 닭 정보
     private int chickenId;
     private int age;
-    private double weight;
+    private double rawWeight;
     private String growthStage;
     private String healthStatus;
 
