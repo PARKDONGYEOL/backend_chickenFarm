@@ -11,7 +11,9 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/note")
-@CrossOrigin(origins = "http://localhost:5173") // CORS 허용 (개발용)
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://192.168.30.*:5173"})
 public class NoteController {
 
     private final NoteService noteService;
