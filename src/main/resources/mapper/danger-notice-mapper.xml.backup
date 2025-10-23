@@ -65,7 +65,6 @@
         ORDER BY REC_TIME DESC
         LIMIT 500
     </select>
-
     <!-- 알림 삭제 (단일) -->
     <delete id="deleteDangerNotice" parameterType="int">
         DELETE FROM DANGER_NOTICE
@@ -80,4 +79,36 @@
             #{num}
         </foreach>
     </delete>
+
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
