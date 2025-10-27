@@ -10,14 +10,25 @@
     </insert>
 
     <select id="getDangerNotices" resultType="com.backend.chickenFarm.danger_notice.dto.DangerNoticeDTO">
-        SELECT NOTICE_NUM as noticeNum,
-        NOTICE_CONTENT as noticeContent,
-        NOTICE_CATEGORY as noticeCategory,
-        FARM_NUM as farmNum,
-        REC_TIME as recTime
-        FROM DANGER_NOTICE
-        WHERE FARM_NUM = #{farmNum}
+        SELECT
+            NOTICE_NUM as noticeNum,
+            NOTICE_CONTENT as noticeContent,
+            NOTICE_CATEGORY as noticeCategory,
+            FARM_NUM as farmNum,
+            REC_TIME as recTime
+        FROM (
+            SELECT
+                t1.*,
+                ROW_NUMBER() OVER (
+                    PARTITION BY t1.NOTICE_CATEGORY, DATE_FORMAT(t1.REC_TIME, '%Y-%m-%d %H:00:00')
+                    ORDER BY t1.REC_TIME ASC
+                ) as rn
+            FROM DANGER_NOTICE t1
+            WHERE t1.FARM_NUM = #{farmNum}
+        ) ranked
+        WHERE rn = 1
         ORDER BY REC_TIME DESC
+        LIMIT 500
     </select>
 
     <select id="getDateDistribution" resultType="map">
