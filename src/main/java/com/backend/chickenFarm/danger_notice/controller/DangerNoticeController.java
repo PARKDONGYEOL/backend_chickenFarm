@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/danger")
+@RequestMapping("/api/danger")
 public class DangerNoticeController {
   private final DangerNoticeService dangerNoticeService;
 
