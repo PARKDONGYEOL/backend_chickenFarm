@@ -16,4 +16,7 @@ public interface MemberMapper {
 
     // 이름 변경
     public int updateName(MemberDTO memberDTO);
+
+    // 회원가입
+    public int insertMember(MemberDTO memberDTO);
 }

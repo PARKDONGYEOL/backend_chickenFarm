@@ -46,4 +46,10 @@
         WHERE MEM_ID = #{memId}
     </update>
 
+    <!-- 회원가입 -->
+    <insert id="insertMember">
+        INSERT INTO MEMBER (MEM_ID, MEM_PW, NAME)
+        VALUES (#{memId}, #{memPw}, #{name})
+    </insert>
+
 </mapper>

@@ -27,9 +27,6 @@ public class EnvSettingsController {
             response.put("data", settings);
             return response;
         } catch (Exception e) {
-            System.out.println("설정 조회 오류: " + e.getMessage());
-            e.printStackTrace();
-            
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "설정 조회 실패: " + e.getMessage());
@@ -40,25 +37,14 @@ public class EnvSettingsController {
     @PostMapping
     public Map<String, Object> updateEnvSettings(@RequestBody EnvSettingsDTO settingsDTO) {
         try {
-            System.out.println("설정 업데이트 요청: " + settingsDTO);
             boolean success = envSettingsService.updateEnvSettings(settingsDTO);
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", success);
-            
-            if (success) {
-                response.put("message", "설정이 저장되었습니다.");
-                System.out.println("설정 저장 성공!");
-            } else {
-                response.put("message", "설정 저장에 실패했습니다.");
-                System.out.println("설정 저장 실패!");
-            }
+            response.put("message", success ? "설정이 저장되었습니다." : "설정 저장에 실패했습니다.");
             
             return response;
         } catch (Exception e) {
-            System.out.println("설정 저장 중 오류: " + e.getMessage());
-            e.printStackTrace();
-            
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "설정 저장 실패: " + e.getMessage());
@@ -73,18 +59,10 @@ public class EnvSettingsController {
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", success);
-            
-            if (success) {
-                response.put("message", "설정이 적용되었습니다.");
-            } else {
-                response.put("message", "설정 적용에 실패했습니다.");
-            }
+            response.put("message", success ? "설정이 적용되었습니다." : "설정 적용에 실패했습니다.");
             
             return response;
         } catch (Exception e) {
-            System.out.println("설정 적용 중 오류: " + e.getMessage());
-            e.printStackTrace();
-            
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "설정 적용 실패: " + e.getMessage());

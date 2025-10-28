@@ -25,7 +25,6 @@ public class ChickenController {
       List<ChickenDTO> chickenList = chickenService.getChickenInfo(batchId);
       return ResponseEntity.status(HttpStatus.OK).body(chickenList);
     }catch (Exception e){
-      e.printStackTrace();
       return ResponseEntity
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body("닭 정보 조회 쿼리 실행 중 오류가 발생했습니다.");
@@ -39,7 +38,6 @@ public class ChickenController {
       chickenService.updateDeadAndCurrentCount(chickenDTO.getBatchId(), chickenDTO.getChickenIdList());
       return ResponseEntity.status(HttpStatus.OK).build();
     }catch (Exception e){
-      e.printStackTrace();
       return ResponseEntity
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body("개체 폐사 처리 쿼리 실행 중 오류가 발생했습니다.");
@@ -53,7 +51,6 @@ public class ChickenController {
       chickenService.updateHealthStatus(chickenDTO.getChickenIdList());
       return ResponseEntity.status(HttpStatus.OK).build();
     }catch (Exception e){
-      e.printStackTrace();
       return ResponseEntity
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body("건강 상태 수정 쿼리 실행 중 오류가 발생했습니다.");

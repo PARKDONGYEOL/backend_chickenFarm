@@ -43,21 +43,18 @@ public class NoteController {
     // 일지 추가
     @PostMapping
     public Map<String, Object> insertNote(@RequestBody NoteDTO noteDTO) {
-        System.out.println("일지 추가 요청 받음: " + noteDTO);
         return noteService.insertNote(noteDTO);
     }
 
     // 일지 수정
     @PutMapping
     public Map<String, Object> updateNote(@RequestBody NoteDTO noteDTO) {
-        System.out.println("일지 수정 요청 받음: " + noteDTO);
         return noteService.updateNote(noteDTO);
     }
 
     // 일지 삭제
     @DeleteMapping("/{noteNum}")
     public Map<String, Object> deleteNote(@PathVariable Integer noteNum) {
-        System.out.println("일지 삭제 요청 받음: " + noteNum);
         return noteService.deleteNote(noteNum);
     }
 }

@@ -30,7 +30,6 @@ public class DangerNoticeController {
       dangerNoticeService.insertDangerNotice(dto);
       return ResponseEntity.ok().body(Map.of("success", true));
     } catch (Exception e) {
-      e.printStackTrace();
       return ResponseEntity.status(500).body(Map.of("success", false, "error", e.getMessage()));
     }
   }
@@ -41,7 +40,6 @@ public class DangerNoticeController {
       List<DangerNoticeDTO> notices = dangerNoticeService.getDangerNotices(farmNum);
       return ResponseEntity.ok().body(Map.of("success", true, "data", notices));
     } catch (Exception e) {
-      e.printStackTrace();
       return ResponseEntity.status(500).body(Map.of("success", false, "error", e.getMessage()));
     }
   }
