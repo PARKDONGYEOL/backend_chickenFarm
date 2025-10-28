@@ -44,7 +44,6 @@ public class EnvSettingsService {
                 return result > 0;
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -65,16 +64,8 @@ public class EnvSettingsService {
             
             org.springframework.http.ResponseEntity<String> response = restTemplate.postForEntity(raspberryUrl, request, String.class);
             
-            if (response.getStatusCode().is2xxSuccessful()) {
-                System.out.println("라즈베리파이에 설정 적용 성공: " + response.getBody());
-                return true;
-            } else {
-                System.out.println("라즈베리파이 설정 적용 실패: " + response.getStatusCode());
-                return false;
-            }
+            return response.getStatusCode().is2xxSuccessful();
         } catch (Exception e) {
-            System.out.println("라즈베리파이 설정 적용 중 오류: " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }

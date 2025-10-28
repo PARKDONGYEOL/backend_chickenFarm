@@ -44,7 +44,6 @@ public class NoteService {
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", "서버 오류가 발생했습니다.");
-            e.printStackTrace();
         }
 
         return result;
@@ -68,7 +67,6 @@ public class NoteService {
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", "서버 오류가 발생했습니다.");
-            e.printStackTrace();
         }
 
         return result;
@@ -92,7 +90,6 @@ public class NoteService {
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", "서버 오류가 발생했습니다.");
-            e.printStackTrace();
         }
 
         return result;

@@ -22,7 +22,6 @@ public class ChickenFarmController {
       chickenFarmService.regFarmName(chickenFarmDTO.getFarmName());
       return ResponseEntity.status(HttpStatus.CREATED).build();
     }catch (Exception e){
-      e.printStackTrace();
       return ResponseEntity.status(HttpStatus
               .INTERNAL_SERVER_ERROR)
               .body("양계장 등록 쿼리 실행 중 오류가 발생했습니다.");
@@ -36,7 +35,6 @@ public class ChickenFarmController {
       List<ChickenFarmDTO> numList = chickenFarmService.getFarmInfo();
       return ResponseEntity.status(HttpStatus.OK).body(numList);
     }catch (Exception e){
-      e.printStackTrace();
       return ResponseEntity
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body("양계장 번호 조회 쿼리 실행 중 오류가 발생했습니다.");

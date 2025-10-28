@@ -53,7 +53,6 @@ public class MemberService {
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", "서버 오류가 발생했습니다.");
-            e.printStackTrace();
         }
 
         return result;
@@ -77,7 +76,29 @@ public class MemberService {
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", "서버 오류가 발생했습니다.");
-            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    // 회원가입
+    public Map<String, Object> signup(MemberDTO memberDTO) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            int insertResult = memberMapper.insertMember(memberDTO);
+
+            if (insertResult > 0) {
+                result.put("success", true);
+                result.put("message", "회원가입이 완료되었습니다.");
+            } else {
+                result.put("success", false);
+                result.put("message", "회원가입에 실패했습니다.");
+            }
+
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", "서버 오류가 발생했습니다.");
         }
 
         return result;
