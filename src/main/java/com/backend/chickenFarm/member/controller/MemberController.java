@@ -9,7 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/member")
+@RequestMapping("/member")
 @CrossOrigin(origins = {
         "http://localhost:5173",
         "http://192.168.30.*:5173"})
