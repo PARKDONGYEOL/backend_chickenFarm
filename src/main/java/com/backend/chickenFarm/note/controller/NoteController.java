@@ -10,10 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/note")
-@CrossOrigin(origins = {
-        "http://localhost:5173",
-        "http://192.168.30.*:5173"})
+@RequestMapping("/note")
 public class NoteController {
 
     private final NoteService noteService;
