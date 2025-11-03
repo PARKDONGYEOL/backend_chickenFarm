@@ -9,10 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/env-settings")
-@CrossOrigin(origins = {
-        "http://localhost:5173",
-        "http://192.168.30.*:5173"})
+@RequestMapping("/env-settings")
 public class EnvSettingsController {
     
     @Autowired
